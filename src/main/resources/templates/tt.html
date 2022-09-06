@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Hello World</title>
+    <script type="text/javascript" src="Resources/dynamsoft.webtwain.initiate.js"></script>
+    <script type="text/javascript" src="Resources/dynamsoft.webtwain.config.js"></script>
+</head>
+<body>
+<form method="post" th:action="@{/save-doc}" th:Object="${Doc}"  enctype="multipart/form-data">
+<div id="dwtcontrolContainer" ></div>
+<input type="button" value="Acquire" onclick="AcquireImage();"/>
+    <input hidden type="file" name="files" id="txt">
+    <input type="submit">
+</form>
+<script type="text/javascript">
+    function AcquireImage() {
+	var DWObject = Dynamsoft.DWT.GetWebTwain('dwtcontrolContainer');
+	if (DWObject) {
+		if (DWObject.UseLocalService) {
+			DWObject.SelectSource(function () {
+				var OnAcquireImageSuccess = OnAcquireImageFailure = function () {
+					DWObject.CloseSource();
+				};
+				DWObject.OpenSource();
+				DWObject.IfDisableSourceAfterAcquire = true;
+				DWObject.AcquireImage(OnAcquireImageSuccess, OnAcquireImageFailure);
+				  document.getElementById('txt').value =DWObject ;
+			}, function () {
+				console.log('SelectSource failed!');
+			});
+		}
+        }
+    }
+    </script>
+    </form>
+</body>
+</html>
