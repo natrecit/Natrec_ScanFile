@@ -46,6 +46,10 @@ public class ScanDoc {
 	@Column(name = "FILE_SIZE")
 	private String fileSize;
 	
+	
+	@Column(name = "NO_BARCODE")
+	private byte[] NoBarcode;
+	
 	@Column(name = "NO_OF_PAGES")
 	private long noPages;
 	
